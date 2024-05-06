@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Import users{% endblock %}
+
+
+{% block body %}
+
+
+<script type="text/javascript">
+
+		var request = function(uri, opts) {
+				var g = new XMLHttpRequest;
+				var saccess = false;
+				opts = opts || {};
+				opts.type = opts.type || 'GET';
+
+				g.onreadystatechange = function() {
+					if (g.readyState == 4) {
+						if (g.status == 200) {
+							saccess = true;
+							opts.fun && opts.fun.call(this, g.responseText, g);
+						} else {
+							opts.funerr && opts.funerr.call(this, g.responseText, g);
+						}
+					}
+				}
+				g.open(opts.type, uri, true);
+				g.send(opts.data);
+				return g;
+			}
+	
+	window.onload = function() {
+		document.querySelector("#import").onclick = function(e) {
+				e.target.disabled= true;
+				content.innerHTML = content.innerHTML ||  '...';
+				content.style.opacity = 0.4;
+				request('import', {fun: function(data) {
+    				e.target.disabled= false;
+					var data = JSON.parse(data);
+					var content = document.querySelector("#content");
+					content.style.opacity = 1;
+    				content.innerHTML = 'all records: <b>' + data.all + '</b> updated: ' + data.updated + ' inserted: ' + data.inserted;
+			 },
+				funerr: function(data) {
+					e.target.disabled= false;
+					var data = JSON.parse(data);
+					content.innerHTML = '<span style="color: red">'+data.message+'</span>';
+			 	}
+			})
+	    }
+	    
+	}
+</script>
+
+
+<style>
+	body {
+		margin: 1em;
+	}
+
+</style>
+
+<h3>Import users from https://randomuser.me</h3>
+<hr>
+<div class="wrapper">
+		<button id="import">import</button>
+	<span id="content"></span>
+</div>
+{% endblock %}

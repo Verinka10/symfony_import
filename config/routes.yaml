@@ -1,0 +1,8 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+new_5:
+    path: /bbb/{id<\d+>?}
+    controller: App\Controller\NewController::bbb

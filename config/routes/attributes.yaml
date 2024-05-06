@@ -1,0 +1,6 @@
+#TODO
+controllers:
+    resource:
+        path: ../../src/Controller/
+        namespace: App\Controller1
+    type: attribute
