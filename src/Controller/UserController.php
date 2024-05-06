@@ -30,7 +30,7 @@ class UserController extends AbstractController
                 $entityManager->flush();
             }
 
-            $data = json_decode(file_get_contents('https://randomuser.me/api/?results=5'));
+            $data = json_decode(file_get_contents('https://randomuser.me/api/?results=500'));
 
             $data = array_map(function ($_) {
                 return [
